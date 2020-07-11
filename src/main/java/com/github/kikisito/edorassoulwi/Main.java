@@ -32,7 +32,7 @@ public final class Main extends Plugin {
         this.getProxy().getPluginManager().registerCommand(this, new PendingFormsCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerJoin(this));
-        task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, 900, TimeUnit.SECONDS);
+        task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, config.getLong("publicidad.period"), TimeUnit.SECONDS);
     }
 
     public void loadConfig() {

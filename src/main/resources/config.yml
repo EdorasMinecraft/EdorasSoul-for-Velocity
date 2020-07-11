@@ -2,6 +2,7 @@ ads-link: ""
 new-forms-link: ""
 
 publicidad:
+  period: 900
   format: "&8[&7Publicidad&8] &b{message}"
   not-found: "&8[&7Publicidad&8] &bNo se ha encontrado ningún anuncio de {player}"
   usage: "&8[&7Publicidad&8] &bUso: /sendad [nick]"
