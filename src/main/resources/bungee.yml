@@ -1,0 +1,3 @@
+name: EdorasSoulWI
+version: ${project.version}
+main: com.github.kikisito.edorassoulwi.Main
