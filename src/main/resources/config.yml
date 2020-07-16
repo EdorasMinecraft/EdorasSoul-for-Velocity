@@ -9,5 +9,6 @@ publicidad:
 
 formularios:
   new-form: "&f[&7A51&f] &bNuevo &eformulario &bpendiente de &e{players}"
+  telegram-bot-token: ""
   telegram-channel: ""
   telegram-new-form: "Nuevo formulario pendiente de *{players}*"
