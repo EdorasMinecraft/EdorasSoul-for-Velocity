@@ -1,5 +1,7 @@
 package com.github.kikisito.edorassoulwi;
 
+import com.cadiducho.telegrambotapi.TelegramBot;
+import com.cadiducho.telegrambotapi.exception.TelegramException;
 import com.github.kikisito.edorassoulwi.commands.PendingFormsCommand;
 import com.github.kikisito.edorassoulwi.commands.SendAdCommand;
 import com.github.kikisito.edorassoulwi.listeners.PlayerJoin;
@@ -23,6 +25,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public final class Main extends Plugin {
+    public static TelegramBot telegramBot;
     public static Configuration config;
     private ScheduledTask task;
 
@@ -33,6 +36,7 @@ public final class Main extends Plugin {
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerJoin(this));
         task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, config.getLong("publicidad.period"), TimeUnit.SECONDS);
+        telegramBot = new TelegramBot(config.getString("telegram-bot-token"));
     }
 
     public void loadConfig() {

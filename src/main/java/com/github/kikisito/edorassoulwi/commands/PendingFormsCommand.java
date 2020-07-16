@@ -1,5 +1,7 @@
 package com.github.kikisito.edorassoulwi.commands;
 
+import com.cadiducho.telegrambotapi.ParseMode;
+import com.cadiducho.telegrambotapi.exception.TelegramException;
 import com.github.kikisito.edorassoulwi.Main;
 import com.github.kikisito.edorassoulwi.PendingForm;
 import com.google.gson.JsonArray;
@@ -33,8 +35,13 @@ public class PendingFormsCommand extends Command {
             }
             for(ProxiedPlayer p : plugin.getProxy().getPlayers()){
                 if(p.hasPermission("a51.notificaciones")){
-                    p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.new-form")).replace("{players}", players.toString())));
+                    p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.new-form").replace("{players}", players.toString()))));
                 }
+            }
+            try {
+                Main.telegramBot.sendMessage(config.get("formularios.telegram-channel"), config.getString("formularios.telegram-new-form").replace("{players}", players.toString()), ParseMode.MARKDOWN, false, false, null, null);
+            } catch (TelegramException e) {
+                e.printStackTrace();
             }
         }
     }
