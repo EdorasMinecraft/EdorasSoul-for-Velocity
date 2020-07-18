@@ -12,3 +12,11 @@ formularios:
   telegram-bot-token: ""
   telegram-channel: ""
   telegram-new-form: "Nuevo formulario pendiente de *{players}*"
+
+protocol:
+  name: 'Edoras 1.16'
+  version: 736
+  do-not-kick: [
+    736
+  ]
+  kick-message: 'This server has been updated!.newline.Please use the latest minecraft version'

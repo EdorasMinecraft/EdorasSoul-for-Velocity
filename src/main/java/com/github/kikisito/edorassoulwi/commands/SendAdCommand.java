@@ -11,7 +11,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.config.Configuration;
 
-import javax.xml.soap.Text;
 import java.util.Random;
 
 public class SendAdCommand extends Command {

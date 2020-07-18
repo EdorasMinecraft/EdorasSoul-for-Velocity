@@ -9,6 +9,7 @@ import com.github.kikisito.edorassoulwi.tasks.Ads;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
@@ -21,13 +22,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public final class Main extends Plugin {
     public static TelegramBot telegramBot;
     public static Configuration config;
     private ScheduledTask task;
+
+    public List<Integer> protocolId = new ArrayList<>();
+    public List<Integer> doNotKick = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -36,6 +42,14 @@ public final class Main extends Plugin {
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerJoin(this));
         task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, config.getLong("publicidad.period"), TimeUnit.SECONDS);
+
+        this.protocolId = config.getIntList("protocol.version");
+        this.doNotKick = config.getIntList("protocol.do-not-kick");
+
+        if (this.protocolId.isEmpty()) {
+            this.protocolId.add(this.getProxy().getProtocolVersion());
+        }
+
         telegramBot = new TelegramBot(config.getString("telegram-bot-token"));
     }
 

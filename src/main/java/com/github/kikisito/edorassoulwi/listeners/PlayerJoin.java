@@ -7,9 +7,11 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,7 +27,7 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onPlayerJoin(PostLoginEvent e) {
         final ProxiedPlayer p = e.getPlayer();
-        if(p.hasPermission("a51.notificaciones")) {
+        if (p.hasPermission("a51.notificaciones")) {
             PendingForm pendingForm = plugin.isPendingForms();
             if (pendingForm.isPendingForms()) {
                 JsonArray jsonArray = pendingForm.getJsonArray();
@@ -38,6 +40,18 @@ public class PlayerJoin implements Listener {
                 plugin.getProxy().getScheduler().schedule(plugin, () -> {
                     p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.new-form")).replace("{players}", players.toString())));
                 }, 5, TimeUnit.SECONDS);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onLoginEvent(PreLoginEvent e) {
+        if (!plugin.protocolId.contains(e.getConnection().getVersion())) {
+            if(!plugin.doNotKick.contains(e.getConnection().getVersion())) {
+                e.setCancelReason(TextComponent.fromLegacyText(
+                        ChatColor.translateAlternateColorCodes('&', config.getString("protocol.kick-message")
+                        .replaceAll(".newline.", "\n"))));
+                e.setCancelled(true);
             }
         }
     }

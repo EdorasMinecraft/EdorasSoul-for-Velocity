@@ -62,6 +62,10 @@
             <id>cadiducho-repo</id>
             <url>https://cadiducho.com/repo</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -79,7 +83,12 @@
         <dependency>
             <groupId>com.cadiducho</groupId>
             <artifactId>TelegramBotAPI</artifactId>
-            <version>4.7</version>
+            <version>4.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MyzelYam</groupId>
+            <artifactId>PremiumVanishAPI</artifactId>
+            <version>2.0.2</version>
         </dependency>
     </dependencies>
 </project>
