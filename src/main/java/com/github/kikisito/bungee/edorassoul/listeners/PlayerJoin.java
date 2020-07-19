@@ -1,7 +1,7 @@
-package com.github.kikisito.edorassoulwi.listeners;
+package com.github.kikisito.bungee.edorassoul.listeners;
 
-import com.github.kikisito.edorassoulwi.Main;
-import com.github.kikisito.edorassoulwi.PendingForm;
+import com.github.kikisito.bungee.edorassoul.Main;
+import com.github.kikisito.bungee.edorassoul.PendingForm;
 import com.google.gson.JsonArray;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;

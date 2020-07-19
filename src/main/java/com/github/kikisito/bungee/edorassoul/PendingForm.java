@@ -1,4 +1,4 @@
-package com.github.kikisito.edorassoulwi;
+package com.github.kikisito.bungee.edorassoul;
 
 import com.google.gson.JsonArray;
 

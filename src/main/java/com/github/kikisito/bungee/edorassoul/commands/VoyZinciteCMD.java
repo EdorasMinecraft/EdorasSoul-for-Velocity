@@ -1,4 +1,4 @@
-package com.github.kikisito.edorassoulwi.commands;
+package com.github.kikisito.bungee.edorassoul.commands;
 
 import com.cadiducho.telegrambotapi.Chat;
 import com.cadiducho.telegrambotapi.Message;
@@ -11,7 +11,7 @@ import com.cadiducho.zincite.api.command.CommandContext;
 import com.cadiducho.zincite.api.command.CommandInfo;
 import com.cadiducho.zincite.api.module.ModuleInfo;
 import com.cadiducho.zincite.api.module.ZinciteModule;
-import com.github.kikisito.edorassoulwi.Main;
+import com.github.kikisito.bungee.edorassoul.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.config.Configuration;

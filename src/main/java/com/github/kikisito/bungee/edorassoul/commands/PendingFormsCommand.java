@@ -1,9 +1,9 @@
-package com.github.kikisito.edorassoulwi.commands;
+package com.github.kikisito.bungee.edorassoul.commands;
 
 import com.cadiducho.telegrambotapi.ParseMode;
 import com.cadiducho.telegrambotapi.exception.TelegramException;
-import com.github.kikisito.edorassoulwi.Main;
-import com.github.kikisito.edorassoulwi.PendingForm;
+import com.github.kikisito.bungee.edorassoul.Main;
+import com.github.kikisito.bungee.edorassoul.PendingForm;
 import com.google.gson.JsonArray;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;

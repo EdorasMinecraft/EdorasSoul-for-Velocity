@@ -1,15 +1,13 @@
-package com.github.kikisito.edorassoulwi;
+package com.github.kikisito.bungee.edorassoul;
 
-import com.cadiducho.telegrambotapi.BotCommand;
-import com.cadiducho.telegrambotapi.TelegramBot;
-import com.cadiducho.telegrambotapi.exception.TelegramException;
 import com.cadiducho.zincite.ZinciteBot;
-import com.github.kikisito.edorassoulwi.commands.PendingFormsCommand;
-import com.github.kikisito.edorassoulwi.commands.SendAdCommand;
-import com.github.kikisito.edorassoulwi.commands.VoyCommand;
-import com.github.kikisito.edorassoulwi.commands.VoyZinciteCMD;
-import com.github.kikisito.edorassoulwi.listeners.PlayerJoin;
-import com.github.kikisito.edorassoulwi.tasks.Ads;
+import com.github.kikisito.bungee.edorassoul.commands.SendAdCommand;
+import com.github.kikisito.bungee.edorassoul.listeners.PlayerJoin;
+import com.github.kikisito.bungee.edorassoul.commands.PendingFormsCommand;
+import com.github.kikisito.bungee.edorassoul.commands.VoyCommand;
+import com.github.kikisito.bungee.edorassoul.commands.VoyZinciteCMD;
+import com.github.kikisito.bungee.edorassoul.listeners.ProxyPingListener;
+import com.github.kikisito.bungee.edorassoul.tasks.Ads;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -43,6 +41,7 @@ public final class Main extends Plugin {
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new VoyCommand(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerJoin(this));
+        this.getProxy().getPluginManager().registerListener(this, new ProxyPingListener(this));
         task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, config.getLong("publicidad.period"), TimeUnit.SECONDS);
 
         this.protocolId = config.getIntList("protocol.version");

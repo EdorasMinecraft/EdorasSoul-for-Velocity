@@ -1,6 +1,6 @@
-package com.github.kikisito.edorassoulwi.listeners;
+package com.github.kikisito.bungee.edorassoul.listeners;
 
-import com.github.kikisito.edorassoulwi.Main;
+import com.github.kikisito.bungee.edorassoul.Main;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;

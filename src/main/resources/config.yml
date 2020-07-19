@@ -17,9 +17,9 @@ formularios:
   telegram-voy: "*{user}* está revisando el último formulario enviado.*{user}* está revisando el último formulario enviado."
 
 protocol:
-  name: 'Edoras 1.16'
+  name: 'Edoras 1.XX'
   version: 736
   do-not-kick: [
     736
   ]
-  kick-message: 'This server has been updated!.newline.Please use the latest minecraft version'
+  kick-message: "¡Versión incorrecta!.newline.Conéctate usando la versión Minecraft 1.XX"
