@@ -39,7 +39,7 @@ public class PendingFormsCommand extends Command {
                 }
             }
             try {
-                Main.telegramBot.sendMessage(config.get("formularios.telegram-channel"), config.getString("formularios.telegram-new-form").replace("{players}", players.toString()), ParseMode.MARKDOWN, false, false, null, null);
+                Main.telegramBot.getTelegramBot().sendMessage(config.get("formularios.telegram-channel"), config.getString("formularios.telegram-new-form").replace("{players}", players.toString()), ParseMode.MARKDOWN, false, false, null, null);
             } catch (TelegramException e) {
                 e.printStackTrace();
             }

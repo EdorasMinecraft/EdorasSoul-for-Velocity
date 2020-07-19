@@ -1,15 +1,18 @@
 package com.github.kikisito.edorassoulwi;
 
+import com.cadiducho.telegrambotapi.BotCommand;
 import com.cadiducho.telegrambotapi.TelegramBot;
 import com.cadiducho.telegrambotapi.exception.TelegramException;
+import com.cadiducho.zincite.ZinciteBot;
 import com.github.kikisito.edorassoulwi.commands.PendingFormsCommand;
 import com.github.kikisito.edorassoulwi.commands.SendAdCommand;
+import com.github.kikisito.edorassoulwi.commands.VoyCommand;
+import com.github.kikisito.edorassoulwi.commands.VoyZinciteCMD;
 import com.github.kikisito.edorassoulwi.listeners.PlayerJoin;
 import com.github.kikisito.edorassoulwi.tasks.Ads;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
@@ -22,13 +25,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public final class Main extends Plugin {
-    public static TelegramBot telegramBot;
+    public static ZinciteBot telegramBot;
     public static Configuration config;
     private ScheduledTask task;
 
@@ -40,6 +41,7 @@ public final class Main extends Plugin {
         this.loadConfig();
         this.getProxy().getPluginManager().registerCommand(this, new PendingFormsCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
+        this.getProxy().getPluginManager().registerCommand(this, new VoyCommand(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerJoin(this));
         task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, config.getLong("publicidad.period"), TimeUnit.SECONDS);
 
@@ -50,7 +52,9 @@ public final class Main extends Plugin {
             this.protocolId.add(this.getProxy().getProtocolVersion());
         }
 
-        telegramBot = new TelegramBot(config.getString("telegram-bot-token"));
+        telegramBot = new ZinciteBot(config.getString("telegram-bot-token"));
+        telegramBot.getModuleManager().registerModule(new VoyZinciteCMD(this));
+        telegramBot.startServer();
     }
 
     public void loadConfig() {
