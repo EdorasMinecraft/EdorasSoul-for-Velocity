@@ -22,7 +22,7 @@ public class VoyCommand extends Command {
     public void execute(CommandSender sender, String[] args) {
         try {
             Configuration config = plugin.getConfig();
-            Main.telegramBot.getTelegramBot().sendMessage(config.get("formularios.telegram-channel"), config.getString("formularios.telegram-voy").replace("{user}", sender.getName()), ParseMode.MARKDOWN, false, false, null, null);
+            Main.telegramBot.getTelegramBot().sendMessage(config.get("telegram-channel"), config.getString("formularios.telegram-voy").replace("{user}", sender.getName()), ParseMode.MARKDOWN, false, false, null, null);
             for(ProxiedPlayer p : plugin.getProxy().getPlayers()){
                 if(p.hasPermission("a51.notificaciones")){
                     p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.voy").replace("{user}", sender.getName()))));

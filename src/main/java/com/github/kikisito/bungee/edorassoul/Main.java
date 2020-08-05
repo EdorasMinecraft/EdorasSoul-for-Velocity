@@ -1,16 +1,15 @@
 package com.github.kikisito.bungee.edorassoul;
 
 import com.cadiducho.zincite.ZinciteBot;
-import com.github.kikisito.bungee.edorassoul.commands.SendAdCommand;
+import com.github.kikisito.bungee.edorassoul.commands.*;
 import com.github.kikisito.bungee.edorassoul.listeners.PlayerJoin;
-import com.github.kikisito.bungee.edorassoul.commands.PendingFormsCommand;
-import com.github.kikisito.bungee.edorassoul.commands.VoyCommand;
-import com.github.kikisito.bungee.edorassoul.commands.VoyZinciteCMD;
 import com.github.kikisito.bungee.edorassoul.listeners.ProxyPingListener;
+import com.github.kikisito.bungee.edorassoul.listeners.TelegramMessage;
 import com.github.kikisito.bungee.edorassoul.tasks.Ads;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
@@ -34,12 +33,16 @@ public final class Main extends Plugin {
     public List<Integer> protocolId = new ArrayList<>();
     public List<Integer> doNotKick = new ArrayList<>();
 
+    public List<ProxiedPlayer> ignoreTelegram = new ArrayList<>();
+
     @Override
     public void onEnable() {
         this.loadConfig();
         this.getProxy().getPluginManager().registerCommand(this, new PendingFormsCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new VoyCommand(this));
+        this.getProxy().getPluginManager().registerCommand(this, new IgnoreTelegramCommand(this));
+        this.getProxy().getPluginManager().registerCommand(this, new MinecraftMessageCommand(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerJoin(this));
         this.getProxy().getPluginManager().registerListener(this, new ProxyPingListener(this));
         task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, config.getLong("publicidad.period"), TimeUnit.SECONDS);
@@ -53,6 +56,7 @@ public final class Main extends Plugin {
 
         telegramBot = new ZinciteBot(config.getString("telegram-bot-token"));
         telegramBot.getModuleManager().registerModule(new VoyZinciteCMD(this));
+        telegramBot.getModuleManager().registerModule(new TelegramMessage(this));
         telegramBot.startServer();
     }
 

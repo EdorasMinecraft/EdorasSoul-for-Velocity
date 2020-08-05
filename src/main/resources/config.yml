@@ -12,9 +12,14 @@ publicidad:
 formularios:
   new-form: "&f[&7A51&f] &bNuevo &eformulario &bpendiente de &e{players}"
   voy: "&f[&7A51&f] &b{user} &eestá revisando el último formulario enviado."
-  telegram-channel: ""
   telegram-new-form: "Nuevo formulario pendiente de {players}"
   telegram-voy: "*{user}* está revisando el último formulario enviado.*{user}* está revisando el último formulario enviado."
+
+telegram-channel: ""
+
+chat:
+  telegram-to-minecraft: "&f[&3Telegram&f] &a{user}&f: &b{message}"
+  minecraft-to-telegram: "*{user}* {message}"
 
 protocol:
   name: 'Edoras 1.XX'
