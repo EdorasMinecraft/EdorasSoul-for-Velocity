@@ -42,7 +42,8 @@ public final class Main extends Plugin {
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new VoyCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new IgnoreTelegramCommand(this));
-        this.getProxy().getPluginManager().registerCommand(this, new MinecraftMessageCommand(this));
+        this.getProxy().getPluginManager().registerCommand(this, new StaffChatCommand(this));
+        this.getProxy().getPluginManager().registerCommand(this, new AdminChatCommand(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerJoin(this));
         this.getProxy().getPluginManager().registerListener(this, new ProxyPingListener(this));
         task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, config.getLong("publicidad.period"), TimeUnit.SECONDS);

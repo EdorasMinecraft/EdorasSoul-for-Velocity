@@ -9,22 +9,26 @@ publicidad:
   not-found: "&8[&7Publicidad&8] &bNo se ha encontrado ningún anuncio de {player}"
   usage: "&8[&7Publicidad&8] &bUso: /sendad [nick]"
 
+staffchat-channel: "-1001152644239"
+adminchat-channel: "-1001337303858"
+#telegram-channel: "-431045578"
+
 formularios:
   new-form: "&f[&7A51&f] &bNuevo &eformulario &bpendiente de &e{players}"
   voy: "&f[&7A51&f] &b{user} &eestá revisando el último formulario enviado."
   telegram-new-form: "Nuevo formulario pendiente de {players}"
-  telegram-voy: "*{user}* está revisando el último formulario enviado.*{user}* está revisando el último formulario enviado."
-
-telegram-channel: ""
+  telegram-voy: "*{user}* está revisando el último formulario enviado."
 
 chat:
-  telegram-to-minecraft: "&f[&3Telegram&f] &a{user}&f: &b{message}"
-  minecraft-to-telegram: "*{user}* {message}"
+  minecraft-modchannel: "&f[&3StaffTelegram&f] &a{user}&f: &b{message}"
+  telegram-modchannel: "*{user}*: {message}"
+  minecraft-adminchannel: "&f[&3AdminTelegram&f] &a{user}&f: &b{message}"
+  telegram-adminchannel: "*{user}*: {message}"
 
 protocol:
-  name: 'Edoras 1.XX'
-  version: 736
-  do-not-kick: [
-    736
-  ]
-  kick-message: "¡Versión incorrecta!.newline.Conéctate usando la versión Minecraft 1.XX"
+  name: 'Edoras 1.16.2'
+  version:
+    - 751 # 1.16.2
+  do-not-kick:
+    - 340 # 1.12.2
+  kick-message: "¡Versión incorrecta!.newline.Conéctate usando la versión Minecraft 1.16.2"

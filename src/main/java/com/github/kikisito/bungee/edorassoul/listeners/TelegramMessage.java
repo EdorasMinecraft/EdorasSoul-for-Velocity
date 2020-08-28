@@ -8,12 +8,15 @@ import com.github.kikisito.bungee.edorassoul.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.config.Configuration;
 
 @ModuleInfo(name = "TelegramToMinecraft", description = "Envia los mensajes de Telegram a Minecraft")
 public class TelegramMessage implements ZinciteModule {
     private final Main plugin;
+    final private Configuration config;
     public TelegramMessage(Main plugin) {
         this.plugin = plugin;
+        this.config = plugin.getConfig();
     }
 
     @Override
@@ -22,9 +25,19 @@ public class TelegramMessage implements ZinciteModule {
         if(update.getMessage().getType() != Message.Type.TEXT) return; // Solo mensajes de texto de momento.
         Message msg = update.getMessage();
 
-        for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
-            if(player.hasPermission("edorassoul.receive.telegram") && !plugin.ignoreTelegram.contains(player)){
-                player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.telegram-to-minecraft")).replace("{user}", update.getMessage().getFrom().getUsername()).replace("{message}", msg.getText())));
+        if(msg.getChat().getId().equals(config.getString("staffchat-channel"))){
+            for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
+                if(player.hasPermission("edorassoul.receive.modchannel") && !plugin.ignoreTelegram.contains(player)){
+                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-modchannel")).replace("{user}", update.getMessage().getFrom().getUsername()).replace("{message}", msg.getText())));
+                }
+            }
+        }
+
+        if(msg.getChat().getId().equals(config.getString("adminchat-channel"))){
+            for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
+                if(player.hasPermission("edorassoul.receive.adminchannel") && !plugin.ignoreTelegram.contains(player)){
+                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-adminchannel")).replace("{user}", update.getMessage().getFrom().getUsername()).replace("{message}", msg.getText())));
+                }
             }
         }
     }
