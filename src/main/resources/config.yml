@@ -24,11 +24,13 @@ chat:
   telegram-modchannel: "*{user}*: {message}"
   minecraft-adminchannel: "&f[&3AdminTelegram&f] &a{user}&f: &b{message}"
   telegram-adminchannel: "*{user}*: {message}"
+  muted-chat: "&f[&3Telegram&f] &bHas &csilenciado&b todas las conversaciones de Telegram."
+  unmuted-chat: "&f[&3Telegram&f] &bHas &adejado de silenciar&b todas las conversaciones de Telegram."
 
 protocol:
-  name: 'Edoras 1.16.2'
+  name: 'Edoras 1.16.4'
   version:
-    - 751 # 1.16.2
+    - 754 # 1.16.4
   do-not-kick:
     - 340 # 1.12.2
-  kick-message: "¡Versión incorrecta!.newline.Conéctate usando la versión Minecraft 1.16.2"
+  kick-message: "¡Versión incorrecta!.newline.Conéctate usando la versión Minecraft 1.16.4"

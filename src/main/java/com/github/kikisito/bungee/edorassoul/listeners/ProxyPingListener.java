@@ -43,9 +43,12 @@ public class ProxyPingListener implements Listener {
                 .toArray(ServerPing.PlayerInfo[]::new);
 
         players.setSample(playerList);
+        players.setOnline(playerList.length);
         ping.setPlayers(players);
 
         ping.setVersion(protocol);
         event.setResponse(ping);
+
+        System.out.println(players);
     }
 }
