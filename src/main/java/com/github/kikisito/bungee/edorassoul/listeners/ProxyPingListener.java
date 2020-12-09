@@ -48,7 +48,5 @@ public class ProxyPingListener implements Listener {
 
         ping.setVersion(protocol);
         event.setResponse(ping);
-
-        System.out.println(players);
     }
 }
