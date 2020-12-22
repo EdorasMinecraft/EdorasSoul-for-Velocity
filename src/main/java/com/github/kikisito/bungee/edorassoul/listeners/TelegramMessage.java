@@ -24,11 +24,12 @@ public class TelegramMessage implements ZinciteModule {
         if(update.getMessage() == null) return; // Si no es un mensaje, cancela
         if(update.getMessage().getType() != Message.Type.TEXT) return; // Solo mensajes de texto de momento.
         Message msg = update.getMessage();
+        String username = msg.getFrom().getUsername() == null ? msg.getFrom().getFirstName() + " " + msg.getFrom().getLastName() : msg.getFrom().getUsername();
 
         if(msg.getChat().getId().equals(config.getString("staffchat-channel"))){
             for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
                 if(player.hasPermission("edorassoul.receive.modchannel") && !plugin.ignoreTelegram.contains(player)){
-                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-modchannel")).replace("{user}", update.getMessage().getFrom().getUsername()).replace("{message}", msg.getText())));
+                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-modchannel")).replace("{user}", username).replace("{message}", msg.getText())));
                 }
             }
         }
@@ -36,7 +37,7 @@ public class TelegramMessage implements ZinciteModule {
         if(msg.getChat().getId().equals(config.getString("adminchat-channel"))){
             for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
                 if(player.hasPermission("edorassoul.receive.adminchannel") && !plugin.ignoreTelegram.contains(player)){
-                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-adminchannel")).replace("{user}", update.getMessage().getFrom().getUsername()).replace("{message}", msg.getText())));
+                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-adminchannel")).replace("{user}", username).replace("{message}", msg.getText())));
                 }
             }
         }
