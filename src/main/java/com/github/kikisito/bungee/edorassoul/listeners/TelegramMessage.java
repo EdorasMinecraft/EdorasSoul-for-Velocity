@@ -24,7 +24,10 @@ public class TelegramMessage implements ZinciteModule {
         if(update.getMessage() == null) return; // Si no es un mensaje, cancela
         if(update.getMessage().getType() != Message.Type.TEXT) return; // Solo mensajes de texto de momento.
         Message msg = update.getMessage();
-        String username = msg.getFrom().getUsername() == null ? msg.getFrom().getFirstName() + " " + msg.getFrom().getLastName() : msg.getFrom().getUsername();
+
+        String name = msg.getFrom().getFirstName() == null ? "" : msg.getFrom().getFirstName() + " ";
+        String surname = msg.getFrom().getLastName() == null ? "" : msg.getFrom().getLastName();
+        String username = msg.getFrom().getUsername() == null ? name + surname : msg.getFrom().getUsername();
 
         if(msg.getChat().getId().equals(config.getString("staffchat-channel"))){
             for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
