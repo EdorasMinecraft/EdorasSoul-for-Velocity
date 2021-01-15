@@ -1,6 +1,7 @@
 package com.github.kikisito.bungee.edorassoul;
 
 import com.cadiducho.zincite.ZinciteBot;
+import com.cadiducho.zincite.api.module.ZinciteModule;
 import com.github.kikisito.bungee.edorassoul.commands.*;
 import com.github.kikisito.bungee.edorassoul.listeners.PlayerJoin;
 import com.github.kikisito.bungee.edorassoul.listeners.ProxyPingListener;
@@ -18,6 +19,7 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 import java.io.*;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.ParseException;
@@ -84,16 +86,20 @@ public final class Main extends Plugin {
     @Override
     public void onDisable() {
         task.cancel();
+        telegramBot.getTelegramBot().stopUpdatesPoller();
+        telegramBot.getModuleManager().getModules().forEach(ZinciteModule::onClose);
     }
 
     public PendingForm isPendingForms(){
         boolean forms = false;
         JsonArray jsonArray = null;
-        try {
-            URL formJson = new URL(config.getString("new-forms-link"));
-            InputStream in = formJson.openStream();
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+        try {
+            URLConnection connection = new URL(config.getString("new-forms-link")).openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            connection.connect();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             jsonArray = new Gson().fromJson(br, JsonArray.class);
             if(jsonArray.size() != 0){
                 forms = true;
@@ -107,12 +113,16 @@ public final class Main extends Plugin {
     public JsonArray getAds(){
         JsonArray jsonArray;
         JsonArray finaljsonArray = new JsonArray();
+
         try {
-            URL formJson = new URL(config.getString("ads-link"));
-            InputStream in = formJson.openStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+            URLConnection connection = new URL(config.getString("ads-link")).openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            connection.connect();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             jsonArray = new Gson().fromJson(br, JsonArray.class);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
+
             for(JsonElement jsonElement : jsonArray){
                 Date fechafin = simpleDateFormat.parse(jsonElement.getAsJsonObject().get("fechafin").getAsString());
                 Date now = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
