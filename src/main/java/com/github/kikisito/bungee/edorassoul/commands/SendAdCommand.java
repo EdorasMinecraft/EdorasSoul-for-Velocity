@@ -25,6 +25,10 @@ public class SendAdCommand extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         JsonArray jsonArray = plugin.getAds();
+        if(jsonArray.size() <= 0) {
+            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("publicidad.no-ads-available"))));
+            return;
+        }
         switch(args.length) {
             case 0:
                 int rnd = new Random().nextInt(jsonArray.size());

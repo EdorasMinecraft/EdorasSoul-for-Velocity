@@ -20,7 +20,11 @@ public class Ads implements Runnable {
 
     @Override
     public void run(){
-        JsonArray jsonArray = plugin.getAds();
+        JsonArray jsonArray = plugin.getAds();;
+        if(jsonArray.size() <= 0) {
+            plugin.getLogger().info("No ads could be found");
+            return;
+        }
         int rnd = new Random().nextInt(jsonArray.size());
         for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
             p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("publicidad.format")).replace("{message}", jsonArray.get(rnd).getAsJsonObject().get("contenido").getAsString())));
