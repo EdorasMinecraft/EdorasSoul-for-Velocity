@@ -18,6 +18,7 @@ import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -97,7 +98,11 @@ public final class Main extends Plugin {
         try {
             URLConnection connection = new URL(config.getString("new-forms-link")).openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            connection.setConnectTimeout(3000);
             connection.connect();
+
+            // Debería devolver un mensaje de error a Player
+            if(((HttpURLConnection) connection).getResponseCode() != HttpURLConnection.HTTP_OK) return new PendingForm(false, new JsonArray());
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             jsonArray = new Gson().fromJson(br, JsonArray.class);
@@ -117,7 +122,11 @@ public final class Main extends Plugin {
         try {
             URLConnection connection = new URL(config.getString("ads-link")).openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+            connection.setConnectTimeout(3000);
             connection.connect();
+
+            // Debería devolver un mensaje de error a Player
+            if(((HttpURLConnection) connection).getResponseCode() != HttpURLConnection.HTTP_OK) return finaljsonArray;
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             jsonArray = new Gson().fromJson(br, JsonArray.class);
