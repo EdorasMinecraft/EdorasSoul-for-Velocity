@@ -27,6 +27,7 @@ chat:
   telegram-adminchannel: "*{user}*: {message}"
   muted-chat: "&f[&3Telegram&f] &bHas &csilenciado&b todas las conversaciones de Telegram."
   unmuted-chat: "&f[&3Telegram&f] &bHas &adejado de silenciar&b todas las conversaciones de Telegram."
+  telegram-chat-not-allowed: "Este chat no tiene permitido el uso de este comando."
 
 protocol:
   name: 'Edoras 1.16.4'
