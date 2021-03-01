@@ -12,6 +12,7 @@ publicidad:
 
 staffchat-channel: "-1001152644239"
 adminchat-channel: "-1001337303858"
+eventoschat-channel: "-1001423341152"
 #telegram-channel: "-431045578"
 
 formularios:
@@ -25,6 +26,8 @@ chat:
   telegram-modchannel: "*{user}*: {message}"
   minecraft-adminchannel: "&f[&3AdminTelegram&f] &a{user}&f: &b{message}"
   telegram-adminchannel: "*{user}*: {message}"
+  minecraft-eventoschannel: "&f[&4EventosTelegram&f] &c{user}&f: &b{message}"
+  telegram-eventoschannel: "*{user}*: {message}"
   muted-chat: "&f[&3Telegram&f] &bHas &csilenciado&b todas las conversaciones de Telegram."
   unmuted-chat: "&f[&3Telegram&f] &bHas &adejado de silenciar&b todas las conversaciones de Telegram."
   telegram-chat-not-allowed: "Este chat no tiene permitido el uso de este comando."

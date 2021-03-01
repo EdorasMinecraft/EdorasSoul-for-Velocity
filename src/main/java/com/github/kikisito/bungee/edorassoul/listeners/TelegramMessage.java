@@ -45,6 +45,14 @@ public class TelegramMessage implements ZinciteModule {
                 }
             }
         }
+
+        if(msg.getChat().getId().equals(config.getString("eventoschat-channel"))){
+            for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
+                if(player.hasPermission("edorassoul.receive.eventoschannel") && !plugin.ignoreTelegram.contains(player)){
+                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-eventoschannel")).replace("{user}", username).replace("{message}", msg.getText())));
+                }
+            }
+        }
     }
 
 
