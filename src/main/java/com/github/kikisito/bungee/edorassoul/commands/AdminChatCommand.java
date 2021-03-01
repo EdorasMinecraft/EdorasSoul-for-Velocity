@@ -22,6 +22,9 @@ public class AdminChatCommand extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if(args.length <= 0){
+            return;
+        }
         try {
             String message = String.join(" ", args);
             Main.telegramBot.getTelegramBot().sendMessage(config.getString("adminchat-channel"), config.getString("chat.telegram-adminchannel").replace("{user}", sender.getName()).replace("{message}", message), ParseMode.MARKDOWN, false, false, null, null);
