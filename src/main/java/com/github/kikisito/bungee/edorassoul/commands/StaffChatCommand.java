@@ -23,6 +23,7 @@ public class StaffChatCommand extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if(args.length <= 0){
+            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-not-enough-args"))));
             return;
         }
         try {
