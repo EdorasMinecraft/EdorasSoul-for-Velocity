@@ -46,13 +46,20 @@ public class PlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLoginEvent(PreLoginEvent e) {
-        if (!plugin.protocolId.contains(e.getConnection().getVersion())) {
-            if(!plugin.doNotKick.contains(e.getConnection().getVersion())) {
-                e.setCancelReason(TextComponent.fromLegacyText(
-                        ChatColor.translateAlternateColorCodes('&', config.getString("protocol.kick-message")
-                        .replaceAll(".newline.", "\n"))));
-                e.setCancelled(true);
-            }
+        if (!plugin.protocolId.contains(e.getConnection().getVersion()) && !plugin.doNotKick.contains(e.getConnection().getVersion())) {
+            e.setCancelReason(TextComponent.fromLegacyText(
+                    ChatColor.translateAlternateColorCodes('&', config.getString("protocol.kick-message")
+                            .replaceAll(".newline.", "\n"))));
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPostLoginEvent(PostLoginEvent e){
+        if(plugin.isWhitelist && !e.getPlayer().hasPermission("edorassoul.bypass.whitelist") && !plugin.getWhitelist().getStringList("allowed-players").contains(e.getPlayer().getUniqueId().toString())){
+            e.getPlayer().disconnect(TextComponent.fromLegacyText(
+                    ChatColor.translateAlternateColorCodes('&', config.getString("protocol.whitelist-message")
+                            .replaceAll(".newline.", "\n"))));
         }
     }
 }

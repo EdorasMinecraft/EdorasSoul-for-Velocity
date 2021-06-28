@@ -26,25 +26,35 @@ public class ProxyPingListener implements Listener {
 
         ServerPing.Protocol protocol = ping.getVersion();
 
-        String protocolName = config.getString("protocol.name");
-        if (protocolName != null) {
-            protocol.setName(protocolName);
-        }
+        String protocolName;
+        // Modo mantenimiento DESACTIVADO
+        if(!plugin.isWhitelist){
+            protocolName = config.getString("protocol.name");
+            if (protocolName != null) {
+                protocol.setName(protocolName);
+            }
 
-        if (!(plugin.protocolId.contains(protocol.getProtocol()))) {
+            if (!(plugin.protocolId.contains(protocol.getProtocol()))) {
+                protocol.setProtocol(-1);
+            }
+
+            ServerPing.Players players = ping.getPlayers();
+            ServerPing.PlayerInfo[] playerList = this.plugin.getProxy().getPlayers()
+                    .stream()
+                    .filter(proxiedPlayer -> !BungeeVanishAPI.isInvisible(proxiedPlayer))
+                    .map(player -> new ServerPing.PlayerInfo(player.getName(), player.getUniqueId()))
+                    .toArray(ServerPing.PlayerInfo[]::new);
+
+            players.setSample(playerList);
+            players.setOnline(playerList.length);
+            ping.setPlayers(players);
+        } else {
+            // Modo mantenimiento
+            ping.getPlayers().setOnline(0);
+            protocolName = config.getString("protocol.whitelist");
+            protocol.setName(protocolName);
             protocol.setProtocol(-1);
         }
-
-        ServerPing.Players players = ping.getPlayers();
-        ServerPing.PlayerInfo[] playerList = this.plugin.getProxy().getPlayers()
-                .stream()
-                .filter(proxiedPlayer -> !BungeeVanishAPI.isInvisible(proxiedPlayer))
-                .map(player -> new ServerPing.PlayerInfo(player.getName(), player.getUniqueId()))
-                .toArray(ServerPing.PlayerInfo[]::new);
-
-        players.setSample(playerList);
-        players.setOnline(playerList.length);
-        ping.setPlayers(players);
 
         ping.setVersion(protocol);
         event.setResponse(ping);

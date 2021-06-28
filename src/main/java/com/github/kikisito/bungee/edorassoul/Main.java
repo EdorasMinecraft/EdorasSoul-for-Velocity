@@ -31,16 +31,21 @@ import java.util.concurrent.TimeUnit;
 public final class Main extends Plugin {
     public static ZinciteBot telegramBot;
     public static Configuration config;
+    public static Configuration whitelist;
     private ScheduledTask task;
 
     public List<Integer> protocolId = new ArrayList<>();
     public List<Integer> doNotKick = new ArrayList<>();
 
     public List<ProxiedPlayer> ignoreTelegram = new ArrayList<>();
+    
+    public boolean isWhitelist = false;
 
     @Override
     public void onEnable() {
         this.loadConfig();
+        this.loadWhitelist();
+        this.isWhitelist = whitelist.getBoolean("whitelist");
         this.getProxy().getPluginManager().registerCommand(this, new PendingFormsCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new VoyCommand(this));
@@ -48,6 +53,7 @@ public final class Main extends Plugin {
         this.getProxy().getPluginManager().registerCommand(this, new StaffChatCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new AdminChatCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new EventosChatCommand(this));
+        this.getProxy().getPluginManager().registerCommand(this, new WhitelistCommand(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerJoin(this));
         this.getProxy().getPluginManager().registerListener(this, new ProxyPingListener(this));
         task = this.getProxy().getScheduler().schedule(this, new Ads(this), 5, config.getLong("publicidad.period"), TimeUnit.SECONDS);
@@ -83,7 +89,35 @@ public final class Main extends Plugin {
         }
     }
 
+    public void loadWhitelist() {
+        try {
+            if (!getDataFolder().exists())
+                getDataFolder().mkdir();
+            File file = new File(getDataFolder(), "whitelist.yml");
+            if (!file.exists()) {
+                try (InputStream in = getResourceAsStream("whitelist.yml")) {
+                    Files.copy(in, file.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            whitelist = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "whitelist.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Configuration getConfig(){ return config; }
+
+    public Configuration getWhitelist(){ return whitelist; }
+
+    public void saveWhitelist(){
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(whitelist, new File(getDataFolder(), "whitelist.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onDisable() {
