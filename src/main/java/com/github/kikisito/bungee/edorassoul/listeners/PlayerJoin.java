@@ -53,13 +53,4 @@ public class PlayerJoin implements Listener {
             e.setCancelled(true);
         }
     }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPostLoginEvent(PostLoginEvent e){
-        if(plugin.isWhitelist && !e.getPlayer().hasPermission("edorassoul.bypass.whitelist") && !plugin.getWhitelist().getStringList("allowed-players").contains(e.getPlayer().getUniqueId().toString())){
-            e.getPlayer().disconnect(TextComponent.fromLegacyText(
-                    ChatColor.translateAlternateColorCodes('&', config.getString("protocol.whitelist-message")
-                            .replaceAll(".newline.", "\n"))));
-        }
-    }
 }
