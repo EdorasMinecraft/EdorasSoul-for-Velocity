@@ -30,7 +30,7 @@ public class TelegramMessage implements ZinciteModule {
 
         String username = msg.getFrom().getUsername() == null ? name + (lastname.equals("null") ? " " + lastname : "") : msg.getFrom().getUsername();
 
-        if(msg.getChat().getId().equals(config.getString("staffchat-channel"))){
+        if(msg.getChat().getId().toString().equals(config.getString("staffchat-channel"))){
             for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
                 if(player.hasPermission("edorassoul.receive.modchannel") && !plugin.ignoreTelegram.contains(player)){
                     player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-modchannel")).replace("{user}", username).replace("{message}", msg.getText())));
@@ -38,7 +38,7 @@ public class TelegramMessage implements ZinciteModule {
             }
         }
 
-        if(msg.getChat().getId().equals(config.getString("adminchat-channel"))){
+        if(msg.getChat().getId().toString().equals(config.getString("adminchat-channel"))){
             for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
                 if(player.hasPermission("edorassoul.receive.adminchannel") && !plugin.ignoreTelegram.contains(player)){
                     player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-adminchannel")).replace("{user}", username).replace("{message}", msg.getText())));
@@ -46,7 +46,7 @@ public class TelegramMessage implements ZinciteModule {
             }
         }
 
-        if(msg.getChat().getId().equals(config.getString("eventoschat-channel"))){
+        if(msg.getChat().getId().toString().equals(config.getString("eventoschat-channel"))){
             for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
                 if(player.hasPermission("edorassoul.receive.eventoschannel") && !plugin.ignoreTelegram.contains(player)){
                     player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-eventoschannel")).replace("{user}", username).replace("{message}", msg.getText())));
