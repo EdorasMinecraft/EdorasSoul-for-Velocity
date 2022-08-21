@@ -40,7 +40,7 @@ public class VoyZinciteCMD implements ZinciteModule {
         @Override
         public void execute(Chat chat, User user, CommandContext commandContext, Integer integer, Message message, Instant instant) throws TelegramException {
             Configuration config = plugin.getConfig();
-            if(chat.getId().equals(config.getString("staffchat-channel"))) {
+            if (chat.getId().equals(Long.parseLong(config.getString("staffchat-channel")))) {
                 plugin.getProxy().getPlayers().stream()
                         .filter(proxiedPlayer -> proxiedPlayer.hasPermission("a51.notificaciones"))
                         .forEach(proxiedPlayer -> {
