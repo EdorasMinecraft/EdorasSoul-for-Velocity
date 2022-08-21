@@ -60,7 +60,7 @@
         </repository>
         <repository>
             <id>cadiducho-repo</id>
-            <url>https://cadiducho.com/repo</url>
+            <url>https://repo.cadiducho.com/releases</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
@@ -83,7 +83,7 @@
         <dependency>
             <groupId>com.cadiducho</groupId>
             <artifactId>Zincite</artifactId>
-            <version>1.4.3</version>
+            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>com.github.MyzelYam</groupId>

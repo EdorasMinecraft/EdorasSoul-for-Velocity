@@ -46,9 +46,9 @@ public class VoyZinciteCMD implements ZinciteModule {
                         .forEach(proxiedPlayer -> {
                             proxiedPlayer.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.voy").replace("{user}", user.getUsername()))));
                         });
-                this.getBot().sendMessage(chat.getId(), config.getString("formularios.telegram-voy").replaceAll("\\*", "").replace("{user}", "[" + user.getUsername() + "](tg://user?id=" + user.getId() + ")"), ParseMode.MARKDOWN, false, false, null, null);
+                this.getBot().sendMessage(chat.getId(), config.getString("formularios.telegram-voy").replaceAll("\\*", "").replace("{user}", "[" + user.getUsername() + "](tg://user?id=" + user.getId() + ")"), ParseMode.MARKDOWN, false, false, null, null, null);
             } else {
-                this.getBot().sendMessage(chat.getId(), config.getString("chat.telegram-chat-not-allowed").replaceAll("\\*", ""), ParseMode.MARKDOWN, false, false, null, null);
+                this.getBot().sendMessage(chat.getId(), config.getString("chat.telegram-chat-not-allowed").replaceAll("\\*", ""), ParseMode.MARKDOWN, false, false, null, null, null);
             }
         }
     }
