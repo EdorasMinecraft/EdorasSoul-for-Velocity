@@ -1,5 +1,7 @@
 package com.github.kikisito.bungee.edorassoul.listeners;
 
+import com.cadiducho.telegrambotapi.ParseMode;
+import com.cadiducho.telegrambotapi.exception.TelegramException;
 import com.github.kikisito.bungee.edorassoul.Main;
 import com.github.kikisito.bungee.edorassoul.PendingForm;
 import com.google.gson.JsonArray;
@@ -27,6 +29,7 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onPlayerJoin(PostLoginEvent e) {
         final ProxiedPlayer p = e.getPlayer();
+
         if (p.hasPermission("a51.notificaciones")) {
             PendingForm pendingForm = plugin.isPendingForms();
             if (pendingForm.isPendingForms()) {
@@ -41,6 +44,20 @@ public class PlayerJoin implements Listener {
                     p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.new-form")).replace("{players}", players.toString())));
                 }, 5, TimeUnit.SECONDS);
             }
+        }
+
+        if (plugin.luckPerms != null) {
+            plugin.luckPerms.getUserManager().loadUser(p.getUniqueId()).thenAccept((lUser) -> {
+                if (lUser.getPrimaryGroup().equals("default")) {
+                    try {
+                        Main.telegramBot.getTelegramBot().sendMessage(config.getString("staffchat-channel"),
+                                config.getString("chat.telegram-alert-visitor-in-game").replace("{user}", p.getName()),
+                                ParseMode.MARKDOWN, false, false, null, null, null);
+                    } catch (TelegramException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
         }
     }
 
