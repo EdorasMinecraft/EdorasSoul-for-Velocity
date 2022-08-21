@@ -13,6 +13,9 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerJoin implements Listener {
@@ -27,6 +30,7 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onPlayerJoin(PostLoginEvent e) {
         final ProxiedPlayer p = e.getPlayer();
+
         if (p.hasPermission("a51.notificaciones")) {
             PendingForm pendingForm = plugin.isPendingForms();
             if (pendingForm.isPendingForms()) {
@@ -42,6 +46,26 @@ public class PlayerJoin implements Listener {
                 }, 5, TimeUnit.SECONDS);
             }
         }
+
+        // Insertar el nombre del usuario a la base de datos según su UUID
+        plugin.getProxy().getScheduler().runAsync(plugin, () -> {
+            try (final Connection connection = plugin.database.getConnection()) {
+                PreparedStatement statement = connection.prepareStatement("""
+                    INSERT INTO `player_uuids` (`uuid`, `name`)
+                    VALUES (?, ?)
+                    ON DUPLICATE KEY UPDATE `name`=?
+                """);
+
+                statement.setString(1, p.getUniqueId().toString());
+                statement.setString(2, p.getName());
+                statement.setString(3, p.getName());
+
+                statement.executeUpdate();
+            } catch (SQLException ex) {
+                plugin.getLogger().warning("Error guardando el nombre de un usuario en la base de datos:");
+                plugin.getLogger().warning(ex.getMessage());
+            }
+        });
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

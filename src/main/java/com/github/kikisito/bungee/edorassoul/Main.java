@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 public final class Main extends Plugin {
     public static ZinciteBot telegramBot;
     public static Configuration config;
+    public Database database;
     private ScheduledTask task;
 
     public List<Integer> protocolId = new ArrayList<>();
@@ -41,6 +42,8 @@ public final class Main extends Plugin {
     @Override
     public void onEnable() {
         this.loadConfig();
+        this.database = new Database();
+
         this.getProxy().getPluginManager().registerCommand(this, new PendingFormsCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new SendAdCommand(this));
         this.getProxy().getPluginManager().registerCommand(this, new VoyCommand(this));
