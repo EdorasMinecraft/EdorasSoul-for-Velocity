@@ -10,8 +10,6 @@ import com.github.kikisito.bungee.edorassoul.tasks.Ads;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
@@ -27,7 +25,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public final class Main extends Plugin {
@@ -40,8 +40,6 @@ public final class Main extends Plugin {
     public List<Integer> doNotKick = new ArrayList<>();
 
     public List<ProxiedPlayer> ignoreTelegram = new ArrayList<>();
-
-    public LuckPerms luckPerms = null;
 
     @Override
     public void onEnable() {
@@ -70,11 +68,6 @@ public final class Main extends Plugin {
         telegramBot.getModuleManager().registerModule(new VoyZinciteCMD(this));
         telegramBot.getModuleManager().registerModule(new TelegramMessage(this));
         telegramBot.startServer();
-
-        if (getProxy().getPluginManager().getPlugin("LuckPerms") != null) {
-            this.luckPerms = LuckPermsProvider.get();
-            getLogger().info("Enlazado a LuckPerms " + luckPerms.getPluginMetadata().getVersion());
-        }
     }
 
     public void loadConfig() {
