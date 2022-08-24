@@ -28,7 +28,7 @@ public class StaffChatCommand extends Command {
         }
         try {
             String message = String.join(" ", args);
-            Main.telegramBot.getTelegramBot().sendMessage(config.getString("staffchat-channel"), config.getString("chat.telegram-modchannel").replace("{user}", sender.getName()).replace("{message}", message), ParseMode.MARKDOWN, false, false, null, null);
+            Main.telegramBot.getTelegramBot().sendMessage(config.getString("staffchat-channel"), config.getString("chat.telegram-modchannel").replace("{user}", sender.getName()).replace("{message}", message), ParseMode.MARKDOWN, false, false, null, null, null);
 
             for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
                 if(player.hasPermission("edorassoul.receive.modchannel") && !plugin.ignoreTelegram.contains(player)){

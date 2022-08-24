@@ -52,7 +52,7 @@ public class PlayerJoin implements Listener {
                     try {
                         Main.telegramBot.getTelegramBot().sendMessage(config.getString("staffchat-channel"),
                                 config.getString("chat.telegram-alert-visitor-in-game").replace("{user}", p.getName()),
-                                ParseMode.MARKDOWN, false, false, null, null);
+                                ParseMode.MARKDOWN, false, false, null, null, null);
                     } catch (TelegramException ex) {
                         throw new RuntimeException(ex);
                     }
