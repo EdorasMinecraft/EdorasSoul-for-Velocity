@@ -3,6 +3,13 @@ new-forms-link: ""
 
 telegram-bot-token: ""
 
+database:
+  host: ""
+  port: ""
+  dbname: ""
+  username: ""
+  password: ""
+
 publicidad:
   period: 900
   format: "&8[&7Publicidad&8] &b{message}"
