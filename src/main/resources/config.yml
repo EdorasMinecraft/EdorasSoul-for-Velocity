@@ -38,6 +38,7 @@ chat:
   muted-chat: "&f[&3Telegram&f] &bHas &csilenciado&b todas las conversaciones de Telegram."
   unmuted-chat: "&f[&3Telegram&f] &bHas &adejado de silenciar&b todas las conversaciones de Telegram."
   telegram-chat-not-allowed: "Este chat no tiene permitido el uso de este comando."
+  telegram-alert-visitor-in-game: "El nuevo usuario *{user}* se acaba de conectar al servidor."
   minecraft-not-enough-args: "&f[&3Telegram&f] &bNo puedes enviar un mensaje vacio."
 
 protocol:

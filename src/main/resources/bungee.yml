@@ -1,3 +1,4 @@
 name: EdorasSoul
 version: ${project.version}
 main: com.github.kikisito.bungee.edorassoul.Main
+softDepends: [LuckPerms]

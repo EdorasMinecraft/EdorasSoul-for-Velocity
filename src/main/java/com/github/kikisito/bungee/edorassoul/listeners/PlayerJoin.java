@@ -1,5 +1,7 @@
 package com.github.kikisito.bungee.edorassoul.listeners;
 
+import com.cadiducho.telegrambotapi.ParseMode;
+import com.cadiducho.telegrambotapi.exception.TelegramException;
 import com.github.kikisito.bungee.edorassoul.Main;
 import com.github.kikisito.bungee.edorassoul.PendingForm;
 import com.google.gson.JsonArray;

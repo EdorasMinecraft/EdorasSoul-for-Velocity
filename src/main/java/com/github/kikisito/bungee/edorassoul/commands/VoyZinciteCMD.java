@@ -40,15 +40,15 @@ public class VoyZinciteCMD implements ZinciteModule {
         @Override
         public void execute(Chat chat, User user, CommandContext commandContext, Integer integer, Message message, Instant instant) throws TelegramException {
             Configuration config = plugin.getConfig();
-            if(chat.getId().equals(config.getString("staffchat-channel"))) {
+            if (chat.getId().equals(Long.parseLong(config.getString("staffchat-channel")))) {
                 plugin.getProxy().getPlayers().stream()
                         .filter(proxiedPlayer -> proxiedPlayer.hasPermission("a51.notificaciones"))
                         .forEach(proxiedPlayer -> {
                             proxiedPlayer.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.voy").replace("{user}", user.getUsername()))));
                         });
-                this.getBot().sendMessage(chat.getId(), config.getString("formularios.telegram-voy").replaceAll("\\*", "").replace("{user}", "[" + user.getUsername() + "](tg://user?id=" + user.getId() + ")"), ParseMode.MARKDOWN, false, false, null, null);
+                this.getBot().sendMessage(chat.getId(), config.getString("formularios.telegram-voy").replaceAll("\\*", "").replace("{user}", "[" + user.getUsername() + "](tg://user?id=" + user.getId() + ")"), ParseMode.MARKDOWN, false, false, null, null, null);
             } else {
-                this.getBot().sendMessage(chat.getId(), config.getString("chat.telegram-chat-not-allowed").replaceAll("\\*", ""), ParseMode.MARKDOWN, false, false, null, null);
+                this.getBot().sendMessage(chat.getId(), config.getString("chat.telegram-chat-not-allowed").replaceAll("\\*", ""), ParseMode.MARKDOWN, false, false, null, null, null);
             }
         }
     }
