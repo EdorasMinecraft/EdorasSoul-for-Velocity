@@ -3,29 +3,32 @@ package com.github.kikisito.bungee.edorassoul.commands;
 import com.cadiducho.telegrambotapi.ParseMode;
 import com.cadiducho.telegrambotapi.exception.TelegramException;
 import com.github.kikisito.bungee.edorassoul.Main;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.config.Configuration;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.simpleyaml.configuration.file.YamlFile;
 
-public class VoyCommand extends Command {
+public class VoyCommand implements SimpleCommand {
     private Main plugin;
 
     public VoyCommand(Main plugin){
-        super("voy", "a51.notificaciones");
         this.plugin = plugin;
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("a51.notificaciones") && invocation.source() instanceof Player;
+    }
+
+    @Override
+    public void execute(final Invocation invocation) {
         try {
-            Configuration config = plugin.getConfig();
-            Main.telegramBot.getTelegramBot().sendMessage(config.get("staffchat-channel"), config.getString("formularios.telegram-voy").replace("{user}", sender.getName()), ParseMode.MARKDOWN, false, false, null, null, null);
-            for(ProxiedPlayer p : plugin.getProxy().getPlayers()){
+            Player sender = (Player) invocation.source();
+            YamlFile config = plugin.getConfig();
+            Main.telegramBot.getTelegramBot().sendMessage(config.get("staffchat-channel"), config.getString("formularios.telegram-voy").replace("{user}", sender.getUsername()), ParseMode.MARKDOWN, false, false, null, null, null);
+            for(Player p : plugin.getServer().getAllPlayers()){
                 if(p.hasPermission("a51.notificaciones")){
-                    p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.voy").replace("{user}", sender.getName()))));
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(config.getString("formularios.voy").replace("{user}", sender.getUsername())));
                 }
             }
         } catch (TelegramException e) {

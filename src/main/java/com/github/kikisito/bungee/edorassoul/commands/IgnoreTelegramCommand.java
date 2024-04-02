@@ -1,30 +1,31 @@
 package com.github.kikisito.bungee.edorassoul.commands;
 
 import com.github.kikisito.bungee.edorassoul.Main;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
-public class IgnoreTelegramCommand extends Command {
+public class IgnoreTelegramCommand implements SimpleCommand {
     final private Main plugin;
 
     public IgnoreTelegramCommand(Main plugin) {
-        super("mutetelegram", "edorassoul.receive.telegram");
         this.plugin = plugin;
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof ProxiedPlayer)) return;
-        ProxiedPlayer p = (ProxiedPlayer) sender;
-        if(!plugin.ignoreTelegram.contains(p)) {
-            plugin.ignoreTelegram.add(p);
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.muted-chat"))));
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("edorassoul.receive.telegram") && invocation.source() instanceof Player;
+    }
+
+    @Override
+    public void execute(final Invocation invocation) {
+        Player sender = (Player) invocation.source();
+        if(!plugin.ignoreTelegram.contains(sender)) {
+            plugin.ignoreTelegram.add(sender);
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getConfig().getString("chat.muted-chat")));
         } else {
-            plugin.ignoreTelegram.remove(p);
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.unmuted-chat"))));
+            plugin.ignoreTelegram.remove(sender);
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getConfig().getString("chat.unmuted-chat")));
 
         }
     }

@@ -5,15 +5,14 @@ import com.cadiducho.telegrambotapi.Update;
 import com.cadiducho.zincite.api.module.ModuleInfo;
 import com.cadiducho.zincite.api.module.ZinciteModule;
 import com.github.kikisito.bungee.edorassoul.Main;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.config.Configuration;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.simpleyaml.configuration.file.YamlFile;
 
 @ModuleInfo(name = "TelegramToMinecraft", description = "Envia los mensajes de Telegram a Minecraft")
 public class TelegramMessage implements ZinciteModule {
     private final Main plugin;
-    final private Configuration config;
+    final private YamlFile config;
     public TelegramMessage(Main plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
@@ -31,25 +30,31 @@ public class TelegramMessage implements ZinciteModule {
         String username = msg.getFrom().getUsername() == null ? name + (lastname.equals("null") ? " " + lastname : "") : msg.getFrom().getUsername();
 
         if(msg.getChat().getId().toString().equals(config.getString("staffchat-channel"))){
-            for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
+            for(Player player : plugin.getServer().getAllPlayers()){
                 if(player.hasPermission("edorassoul.receive.modchannel") && !plugin.ignoreTelegram.contains(player)){
-                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-modchannel")).replace("{user}", username).replace("{message}", msg.getText())));
+                    player.sendMessage(MiniMessage.miniMessage().deserialize(
+                            plugin.getConfig().getString("chat.minecraft-modchannel").replace("{user}", username).replace("{message}", msg.getText())
+                    ));
                 }
             }
         }
 
         if(msg.getChat().getId().toString().equals(config.getString("adminchat-channel"))){
-            for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
+            for(Player player : plugin.getServer().getAllPlayers()){
                 if(player.hasPermission("edorassoul.receive.adminchannel") && !plugin.ignoreTelegram.contains(player)){
-                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-adminchannel")).replace("{user}", username).replace("{message}", msg.getText())));
+                    player.sendMessage(MiniMessage.miniMessage().deserialize(
+                                    plugin.getConfig().getString("chat.minecraft-adminchannel").replace("{user}", username).replace("{message}", msg.getText())
+                    ));
                 }
             }
         }
 
         if(msg.getChat().getId().toString().equals(config.getString("eventoschat-channel"))){
-            for(ProxiedPlayer player : plugin.getProxy().getPlayers()){
+            for(Player player : plugin.getServer().getAllPlayers()){
                 if(player.hasPermission("edorassoul.receive.eventoschannel") && !plugin.ignoreTelegram.contains(player)){
-                    player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("chat.minecraft-eventoschannel")).replace("{user}", username).replace("{message}", msg.getText())));
+                    player.sendMessage(MiniMessage.miniMessage().deserialize(
+                            plugin.getConfig().getString("chat.minecraft-eventoschannel").replace("{user}", username).replace("{message}", msg.getText())
+                    ));
                 }
             }
         }

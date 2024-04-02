@@ -5,25 +5,26 @@ import com.cadiducho.telegrambotapi.exception.TelegramException;
 import com.github.kikisito.bungee.edorassoul.Main;
 import com.github.kikisito.bungee.edorassoul.PendingForm;
 import com.google.gson.JsonArray;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.config.Configuration;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.simpleyaml.configuration.file.YamlFile;
 
-public class PendingFormsCommand extends Command {
+public class PendingFormsCommand implements SimpleCommand {
     final private Main plugin;
-    final private Configuration config;
+    final private YamlFile config;
 
     public PendingFormsCommand(Main plugin){
-        super("checkforms", "a51.notificaciones");
         this.plugin = plugin;
         this.config = plugin.getConfig();
     }
+    @Override
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("a51.notificaciones") && invocation.source() instanceof Player;
+    }
 
     @Override
-    public void execute(CommandSender sender, String[] args){
+    public void execute(final Invocation invocation) {
         PendingForm pendingForm = plugin.isPendingForms();
         if(pendingForm.isPendingForms()){
             JsonArray jsonArray = pendingForm.getJsonArray();
@@ -37,9 +38,9 @@ public class PendingFormsCommand extends Command {
                 if(i + 1 <= jsonArray.size() - 2){ players.append(", "); playersmc.append(", "); }
                 if(i + 1 == jsonArray.size() - 1){ players.append(" y "); playersmc.append(" y "); }
             }
-            for(ProxiedPlayer p : plugin.getProxy().getPlayers()){
+            for(Player p : plugin.getServer().getAllPlayers()){
                 if(p.hasPermission("a51.notificaciones")){
-                    p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.new-form").replace("{players}", playersmc))));
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(config.getString("formularios.new-form").replace("{players}", playersmc)));
                 }
             }
             try {

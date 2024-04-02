@@ -3,37 +3,42 @@ package com.github.kikisito.bungee.edorassoul.commands;
 import com.github.kikisito.bungee.edorassoul.Main;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.config.Configuration;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.simpleyaml.configuration.file.YamlFile;
 
 import java.util.Random;
 
-public class SendAdCommand extends Command {
+public class SendAdCommand implements SimpleCommand {
     final private Main plugin;
-    final private Configuration config;
+    final private YamlFile config;
 
     public SendAdCommand(Main plugin) {
-        super("sendad", "a51.publicidad.enviar");
         this.plugin = plugin;
         this.config = plugin.getConfig();
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("a51.publicidad.enviar") && invocation.source() instanceof Player;
+    }
+
+    @Override
+    public void execute(final Invocation invocation) {
+        Player sender = (Player) invocation.source();
+        String[] args = invocation.arguments();
+
         JsonArray jsonArray = plugin.getAds();
         if(jsonArray.size() <= 0) {
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("publicidad.no-ads-available"))));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(config.getString("publicidad.no-ads-available")));
             return;
         }
         switch(args.length) {
             case 0:
                 int rnd = new Random().nextInt(jsonArray.size());
-                for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
-                    p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("publicidad.format")).replace("{message}", jsonArray.get(rnd).getAsJsonObject().get("contenido").getAsString())));
+                for (Player p : plugin.getServer().getAllPlayers()) {
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(config.getString("publicidad.format").replace("{message}", jsonArray.get(rnd).getAsJsonObject().get("contenido").getAsString())));
                 }
                 break;
             case 1:
@@ -45,15 +50,15 @@ public class SendAdCommand extends Command {
                     }
                 }
                 if(anuncio != null){
-                    for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
-                        p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("publicidad.format")).replace("{message}", anuncio.getAsJsonObject().get("contenido").getAsString())));
+                    for (Player p : plugin.getServer().getAllPlayers()) {
+                        p.sendMessage(MiniMessage.miniMessage().deserialize(config.getString("publicidad.format").replace("{message}", anuncio.getAsJsonObject().get("contenido").getAsString())));
                     }
                 } else {
-                    sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("publicidad.not-found").replace("{player}", args[0]))));
+                    sender.sendMessage(MiniMessage.miniMessage().deserialize( config.getString("publicidad.not-found").replace("{player}", args[0])));
                 }
                 break;
             default:
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("publicidad.usage"))));
+                sender.sendMessage(MiniMessage.miniMessage().deserialize(config.getString("publicidad.usage")));
                 break;
         }
     }

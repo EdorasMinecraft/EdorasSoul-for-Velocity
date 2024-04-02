@@ -1,54 +1,58 @@
 package com.github.kikisito.bungee.edorassoul.listeners;
 
 import com.github.kikisito.bungee.edorassoul.Main;
-import net.md_5.bungee.api.ServerPing;
-import net.md_5.bungee.api.event.ProxyPingEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventPriority;
+import com.velocitypowered.api.event.PostOrder;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.proxy.server.ServerPing;
+import de.myzelyam.api.vanish.VelocityVanishAPI;
+import org.simpleyaml.configuration.file.YamlFile;
 
-import de.myzelyam.api.vanish.*;
-
-public class ProxyPingListener implements Listener {
+public class ProxyPingListener {
 
     final private Main plugin;
-    final private Configuration config;
+    final private YamlFile config;
 
     public ProxyPingListener(Main plugin){
         this.plugin = plugin;
         this.config = plugin.getConfig();
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPing(ProxyPingEvent event) {
-        ServerPing ping = event.getResponse();
+    @Subscribe(order = PostOrder.FIRST)
+    public void onProxyPing(ProxyPingEvent event) {
+        ServerPing ping = event.getPing();
+        ServerPing.Builder serverPingBuilder = ping.asBuilder();
 
-        ServerPing.Protocol protocol = ping.getVersion();
+        ServerPing.Version playerVersion = ping.getVersion();
+        int playerProtocol = playerVersion.getProtocol();
 
         String protocolName;
         // Modo mantenimiento DESACTIVADO
         protocolName = config.getString("protocol.name");
         if (protocolName != null) {
-            protocol.setName(protocolName);
+            ServerPing.Version version = new ServerPing.Version(playerProtocol, protocolName);
+            serverPingBuilder.version(version);
+        } else {
+            protocolName = "Edoras";
         }
 
-        if (!(plugin.protocolId.contains(protocol.getProtocol()))) {
-            protocol.setProtocol(-1);
+        if (!(plugin.protocolId.contains(playerProtocol))) {
+            ServerPing.Version unsupportedProtocol = new ServerPing.Version(-1, protocolName);
+            serverPingBuilder.version(unsupportedProtocol);
         }
 
-        ServerPing.Players players = ping.getPlayers();
-        ServerPing.PlayerInfo[] playerList = this.plugin.getProxy().getPlayers()
+        ServerPing.SamplePlayer[] playerList = plugin.getServer().getAllPlayers()
                 .stream()
-                .filter(proxiedPlayer -> !BungeeVanishAPI.isInvisible(proxiedPlayer))
-                .map(player -> new ServerPing.PlayerInfo(player.getName(), player.getUniqueId()))
-                .toArray(ServerPing.PlayerInfo[]::new);
+                .filter(proxiedPlayer -> !VelocityVanishAPI.isInvisible(proxiedPlayer))
+                .map(player -> new ServerPing.SamplePlayer(player.getUsername(), player.getUniqueId()))
+                .toArray(ServerPing.SamplePlayer[]::new);
 
-        players.setSample(playerList);
-        players.setOnline(playerList.length);
-        ping.setPlayers(players);
+        serverPingBuilder.maximumPlayers(playerList.length);
+        serverPingBuilder.samplePlayers(playerList);
 
-        ping.setVersion(protocol);
-        event.setResponse(ping);
+        // Creamos un nuevo ServerPing
+
+        ServerPing response = serverPingBuilder.build();
+        event.setPing(response);
     }
 }

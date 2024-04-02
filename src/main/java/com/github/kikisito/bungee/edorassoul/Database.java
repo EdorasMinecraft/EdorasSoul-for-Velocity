@@ -13,17 +13,18 @@ public class Database {
 
     private final HikariDataSource dataSource;
 
-    public Database() {
-        final String host = Main.config.getString("database.host");
-        final String port = Main.config.getString("database.port");
-        final String database = Main.config.getString("database.dbname");
-        final String username = Main.config.getString("database.username");
-        final String password = Main.config.getString("database.password");
+    public Database(Main plugin) {
+        final String host = plugin.getConfig().getString("database.host");
+        final String port = plugin.getConfig().getString("database.port");
+        final String database = plugin.getConfig().getString("database.dbname");
+        final String username = plugin.getConfig().getString("database.username");
+        final String password = plugin.getConfig().getString("database.password");
 
         final HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database);
+        hikariConfig.setJdbcUrl("jdbc:mariadb://" + host + ":" + port + "/" + database);
         hikariConfig.setUsername(username);
         hikariConfig.setPassword(password);
+        hikariConfig.setDriverClassName("org.mariadb.jdbc.Driver");
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

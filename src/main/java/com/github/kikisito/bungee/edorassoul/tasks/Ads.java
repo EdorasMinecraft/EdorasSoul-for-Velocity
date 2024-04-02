@@ -2,16 +2,16 @@ package com.github.kikisito.bungee.edorassoul.tasks;
 
 import com.github.kikisito.bungee.edorassoul.Main;
 import com.google.gson.JsonArray;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.config.Configuration;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.simpleyaml.configuration.file.YamlFile;
 
 import java.util.Random;
 
 public class Ads implements Runnable {
     final private Main plugin;
-    final private Configuration config;
+    final private YamlFile config;
 
     public Ads(Main plugin){
         this.plugin = plugin;
@@ -26,8 +26,9 @@ public class Ads implements Runnable {
             return;
         }
         int rnd = new Random().nextInt(jsonArray.size());
-        for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
-            p.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("publicidad.format")).replace("{message}", jsonArray.get(rnd).getAsJsonObject().get("contenido").getAsString())));
+        for (Player p : plugin.getServer().getAllPlayers()) {
+            Component ad = MiniMessage.miniMessage().deserialize(config.getString("publicidad.format").replace("{message}", jsonArray.get(rnd).getAsJsonObject().get("contenido").getAsString()));
+            p.sendMessage(ad);
         }
     }
 }

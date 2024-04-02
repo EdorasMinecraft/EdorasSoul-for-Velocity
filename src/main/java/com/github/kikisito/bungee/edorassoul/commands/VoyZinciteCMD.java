@@ -12,9 +12,8 @@ import com.cadiducho.zincite.api.command.CommandInfo;
 import com.cadiducho.zincite.api.module.ModuleInfo;
 import com.cadiducho.zincite.api.module.ZinciteModule;
 import com.github.kikisito.bungee.edorassoul.Main;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.config.Configuration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.simpleyaml.configuration.file.YamlFile;
 
 import java.time.Instant;
 
@@ -39,12 +38,12 @@ public class VoyZinciteCMD implements ZinciteModule {
 
         @Override
         public void execute(Chat chat, User user, CommandContext commandContext, Integer integer, Message message, Instant instant) throws TelegramException {
-            Configuration config = plugin.getConfig();
+            YamlFile config = plugin.getConfig();
             if (chat.getId().equals(Long.parseLong(config.getString("staffchat-channel")))) {
-                plugin.getProxy().getPlayers().stream()
+                plugin.getServer().getAllPlayers().stream()
                         .filter(proxiedPlayer -> proxiedPlayer.hasPermission("a51.notificaciones"))
                         .forEach(proxiedPlayer -> {
-                            proxiedPlayer.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.getString("formularios.voy").replace("{user}", user.getUsername()))));
+                            proxiedPlayer.sendMessage(MiniMessage.miniMessage().deserialize(config.getString("formularios.voy").replace("{user}", user.getUsername())));
                         });
                 this.getBot().sendMessage(chat.getId(), config.getString("formularios.telegram-voy").replaceAll("\\*", "").replace("{user}", "[" + user.getUsername() + "](tg://user?id=" + user.getId() + ")"), ParseMode.MARKDOWN, false, false, null, null, null);
             } else {
