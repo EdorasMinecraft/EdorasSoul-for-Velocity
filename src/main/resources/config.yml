@@ -12,10 +12,10 @@ database:
 
 publicidad:
   period: 900
-  format: "&8[&7Publicidad&8] &b{message}"
-  no-ads-available: "&8[&7Publicidad&8] &bNo hay ningún anuncio disponible ahora mismo."
-  not-found: "&8[&7Publicidad&8] &bNo se ha encontrado ningún anuncio de {player}"
-  usage: "&8[&7Publicidad&8] &bUso: /sendad [nick]"
+  format: "<dark_gray>[<gray>Publicidad<dark_gray>] <aqua>{message}"
+  no-ads-available: "<dark_gray>[<gray>Publicidad<dark_gray>] <aqua>No hay ningún anuncio disponible ahora mismo."
+  not-found: "<dark_gray>[<gray>Publicidad<dark_gray>] <aqua>No se ha encontrado ningún anuncio de {player}"
+  usage: "<dark_gray>[<gray>Publicidad<dark_gray>] <aqua>Uso: /sendad [nick]"
 
 staffchat-channel: "-1001152644239"
 adminchat-channel: "-1001337303858"
@@ -23,28 +23,40 @@ eventoschat-channel: "-1001423341152"
 #telegram-channel: "-431045578"
 
 formularios:
-  new-form: "&f[&7A51&f] &bNuevo &eformulario &bpendiente de &e{players}"
-  voy: "&f[&7A51&f] &b{user} &eestá revisando el último formulario enviado."
+  new-form: "<white>[<gray>A51<white>] <aqua>Nuevo <yellow>formulario <aqua>pendiente de <yellow>{players}"
+  voy: "<white>[<gray>A51<white>] <aqua>{user} <yellow>está revisando el último formulario enviado."
   telegram-new-form: "Nuevo formulario pendiente de {players}"
   telegram-voy: "*{user}* está revisando el último formulario enviado."
 
 chat:
-  minecraft-modchannel: "&f[&3StaffTelegram&f] &a{user}&f: &b{message}"
+  minecraft-modchannel: "<white>[<dark_aqua>StaffTelegram<white>] <green>{user}<white>: <aqua>{message}"
   telegram-modchannel: "*{user}*: {message}"
-  minecraft-adminchannel: "&f[&3AdminTelegram&f] &a{user}&f: &b{message}"
+  minecraft-adminchannel: "<white>[<dark_aqua>AdminTelegram<white>] <green>{user}<white>: <aqua>{message}"
   telegram-adminchannel: "*{user}*: {message}"
-  minecraft-eventoschannel: "&f[&4EventosTelegram&f] &c{user}&f: &b{message}"
+  minecraft-eventoschannel: "<white>[<dark_red>EventosTelegram<white>] <red>{user}<white>: <aqua>{message}"
   telegram-eventoschannel: "*{user}*: {message}"
-  muted-chat: "&f[&3Telegram&f] &bHas &csilenciado&b todas las conversaciones de Telegram."
-  unmuted-chat: "&f[&3Telegram&f] &bHas &adejado de silenciar&b todas las conversaciones de Telegram."
+  muted-chat: "<white>[<dark_aqua>Telegram<white>] <aqua>Has <red>silenciado<aqua> todas las conversaciones de Telegram."
+  unmuted-chat: "<white>[<dark_aqua>Telegram<white>] <aqua>Has <green>dejado de silenciar<aqua> todas las conversaciones de Telegram."
   telegram-chat-not-allowed: "Este chat no tiene permitido el uso de este comando."
   telegram-alert-visitor-in-game: "El nuevo usuario *{user}* se acaba de conectar al servidor."
-  minecraft-not-enough-args: "&f[&3Telegram&f] &bNo puedes enviar un mensaje vacio."
+  minecraft-not-enough-args: "<white>[<dark_aqua>Telegram<white>] <aqua>No puedes enviar un mensaje vacio."
+  whitelist-enabled: "<white>[<dark_aqua>Whitelist<white>] <aqua>Has activado correctamente la whitelist."
+  whitelist-disabled: "<white>[<dark_aqua>Whitelist<white>] <aqua>Has desactivado correctamente la whitelist."
+  whitelist-list: "<white>[<dark_aqua>Whitelist<white>] <aqua>Jugadores en la whitelist: {users}"
+  whitelist-added: "<white>[<dark_aqua>Whitelist<white>] <aqua>Jugador añadido  de la whitelist correctamente."
+  whitelist-removed: "<white>[<dark_aqua>Whitelist<white>] <aqua>Jugador eliminado de la whitelist correctamente."
+  whitelist-error: "<white>[<dark_aqua>Whitelist<white>] <aqua>No se ha encontrado ningún jugador con el nombre especificado."
+  whitelist-found: "<white>[<dark_aqua>Whitelist<white>] <aqua>{user} se encuentra en la whitelist."
+  whitelist-not-found: "<white>[<dark_aqua>Whitelist<white>] <aqua>{user} no se encuentra en la whitelist."
+  whitelist-usage: "<white>[<dark_aqua>Whitelist<white>] <aqua>Uso: /whitelist <enable/disable/add/remove/check> [args]"
+  whitelist-kickall: "¡Hemos entrado en modo mantenimiento! Síguenos en redes sociales para ver cómo avanzamos."
+  whitelist-kickall-executed: "<white>[<dark_aqua>Whitelist<white>] <aqua>Se han expulsado a todos los usuarios por motivos de mantenimiento del servidor."
+  whitelist-required: "<white>[<dark_aqua>Whitelist<white>] <aqua>Es necesario que la whitelist esté activa para ejecutar este comando."
 
 protocol:
-  name: 'Edoras 1.16.4'
+  name: 'Edoras 1.20.4'
   version:
-    - 754 # 1.16.4
+    - 765 # 1.20.3/4
   do-not-kick:
     - 340 # 1.12.2
-  kick-message: "¡Versión incorrecta!.newline.Conéctate usando la versión Minecraft 1.16.4"
+  kick-message: "¡Versión incorrecta!.newline.Conéctate usando la versión Minecraft Java 1.20.4"
