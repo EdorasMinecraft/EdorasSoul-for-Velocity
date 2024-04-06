@@ -6,7 +6,7 @@
 
     <groupId>com.github.kikisito</groupId>
     <artifactId>EdorasSoul-Velocity</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4</version>
     <packaging>jar</packaging>
 
     <name>EdorasSoul Velocity</name>
@@ -94,7 +94,7 @@
         <dependency>
             <groupId>com.cadiducho</groupId>
             <artifactId>Zincite</artifactId>
-            <version>1.5</version>
+            <version>1.9-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.LeonMangler</groupId>

@@ -1,4 +1,4 @@
-package com.github.kikisito.bungee.edorassoul;
+package com.github.kikisito.velocity.edorassoul;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
